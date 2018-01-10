@@ -1,0 +1,43 @@
+<html>
+<head>
+    <title>Node.js IL Chat</title>
+    <style>
+
+    </style>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+</head>
+<body>
+<div id="app">
+    <svg viewBox="0 0 317 244" version="1.1"
+         xmlns="http://www.w3.org/2000/svg">
+        <circle :cx="point.x" :cy="point.y / 2" :r="index+5" stroke="blue" fill="cyan" v-for="(point, index) in points" :key="index" />
+    </svg>
+</div>
+<script language="javascript">
+
+  const app = new Vue({
+    el: '#app',
+    mounted: function () {
+      let me=this
+      this.socket = io.connect('http://192.168.1.40:3000/')
+      this.socket.on('datas', function (data) {
+        me.points = JSON.parse(data)
+        //console.log(data)
+      })
+    },
+    data: {
+      points: [],
+      socket: ''
+    }
+
+  })
+  /* var socket = io.connect('http://192.168.1.40:3000/');
+   socket.on('datas', function (data) {
+     app.$data.points=data
+     console.log(data)
+   }); */
+</script>
+</body>
+</html>
